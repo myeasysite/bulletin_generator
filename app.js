@@ -235,12 +235,18 @@ function borderForLine(line) {
   return NO_BORDERS;
 }
 
+function shadeFor(shade) {
+  if (shade === "header") return { type: ShadingType.CLEAR, fill: HEADER_FILL };
+  if (shade) return { type: ShadingType.CLEAR, fill: COMBAT_FILL };
+  return undefined;
+}
+
 function dataCell(text, opts = {}) {
   return new TableCell({
     borders: borderForLine(opts.borderLine),
     verticalAlign: VerticalAlign.CENTER,
     width: opts.width ? { size: opts.width, type: WidthType.DXA } : undefined,
-    shading: opts.shade ? { type: ShadingType.CLEAR, fill: COMBAT_FILL } : undefined,
+    shading: shadeFor(opts.shade),
     children: [para(run(String(text), { bold: opts.bold, italics: opts.italics, size: 20, font: opts.font || FONT }), { alignment: AlignmentType.CENTER })]
   });
 }
@@ -285,7 +291,7 @@ function buildHeaderRows(columns, widths, leadingCount, trailingCount, distribut
   // Legend row: single-letter column codes (A, B, C, ...), as in the original bulletin
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const legendRow = [oblastW, ...leadingW, ...distributionW, ...trailingW]
-    .map((w, i) => dataCell(letters[i], { width: w, borderLine: "all", font: HEADER_FONT }));
+   .map((w, i) => dataCell(letters[i], { width: w, borderLine: "all", font: HEADER_FONT, shade: "header" }));
 
   return [
     new TableRow({ tableHeader: true, children: row1 }),
@@ -323,6 +329,7 @@ function buildStatsTable(columns, mainRows, combatRows, combatLabel, layout) {
       new TableCell({
         borders: NO_BORDERS,
         columnSpan: columns.length + 1,
+        shading: { type: ShadingType.CLEAR, fill: COMBAT_FILL },
         children: [para(run(combatLabel, { italics: true, size: 18 }))]
       })
     ]
