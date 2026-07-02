@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Генератор бюлетенів REEFMC</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <h1>Генератор бюлетенів REEFMC</h1>
+  <p class="subtitle">Заповніть дані нижче та натисніть «Сформувати Word-файл» — документ згенерується прямо у браузері, нічого нікуди не завантажується.</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>1. Загальні дані</h2>
+    <div class="grid-4">
+      <label>Номер бюлетеня
+        <input type="text" id="bulletinNumber" value="5">
+      </label>
+      <label>Дата випуску (як буде надруковано)
+        <input type="text" id="reportDate" value="June 1, 2026">
+      </label>
+      <label>Період — від
+        <input type="text" id="periodFrom" value="01.05.2026" placeholder="дд.мм.рррр">
+      </label>
+      <label>Період — до
+        <input type="text" id="periodTo" value="31.05.2026" placeholder="дд.мм.рррр">
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>2. Карти</h2>
+    <div class="grid-2">
+      <label>Карта 1 — активні пожежі по Україні
+        <input type="file" id="map1" accept="image/png,image/jpeg">
+        <img id="map1Preview" class="preview" hidden>
+      </label>
+      <label>Карта 2 — пожежі в природоохоронних територіях (Emerald Network)
+        <input type="file" id="map2" accept="image/png,image/jpeg">
+        <img id="map2Preview" class="preview" hidden>
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>3. Таблиця 1 — статистика пожеж по Україні</h2>
+    <h3>Основні дані по областях</h3>
+    <p class="paste-hint">Виділіть у Excel/Google Таблицях діапазон <b>Область + всі числові колонки</b> (у тому ж порядку, що й у таблиці нижче), скопіюйте (Ctrl+C), вставте в поле нижче (Ctrl+V) і натисніть «Застосувати». Рядки таблиці заміняться повністю на вставлені дані.</p>
+    <textarea class="paste-box" id="table1Paste" rows="3" placeholder="Cherkasy	20	1115	21	0	730	361	3	140&#10;Chernihiv	129	14843	519	96	8574	5657	93	5195"></textarea>
+    <button type="button" class="btn-apply" data-apply="table1">Застосувати вставлені дані</button>
+    <div id="table1Wrap"></div>
+    <button type="button" class="btn-add" data-add="table1">+ Додати область</button>
+
+    <h3>Зона прямого впливу бойових дій (60 км, 30+30 км)</h3>
+    <textarea class="paste-box" id="table1CombatPaste" rows="3" placeholder="Chernihiv	70	10883	468	96	7254	3070	91	2087"></textarea>
+    <button type="button" class="btn-apply" data-apply="table1Combat">Застосувати вставлені дані</button>
+    <div id="table1CombatWrap"></div>
+    <button type="button" class="btn-add" data-add="table1Combat">+ Додати область до зони бойових дій</button>
+  </section>
+
+  <section class="card">
+    <h2>4. Таблиця 2 — пожежі у природоохоронних територіях (Emerald Network)</h2>
+    <h3>Основні дані по областях</h3>
+    <p class="paste-hint">Порядок колонок: Область, Area of fires, Forests, Thereof coniferous, Agricultural lands, Other natural landscapes, Settlements.</p>
+    <textarea class="paste-box" id="table2Paste" rows="3" placeholder="Cherkasy	140	13	0	0	127	0"></textarea>
+    <button type="button" class="btn-apply" data-apply="table2">Застосувати вставлені дані</button>
+    <div id="table2Wrap"></div>
+    <button type="button" class="btn-add" data-add="table2">+ Додати область</button>
+
+    <h3>Зона прямого впливу бойових дій (60 км, 30+30 км)</h3>
+    <textarea class="paste-box" id="table2CombatPaste" rows="3" placeholder="Chernihiv	2087	82	34	777	1198	30"></textarea>
+    <button type="button" class="btn-apply" data-apply="table2Combat">Застосувати вставлені дані</button>
+    <div id="table2CombatWrap"></div>
+    <button type="button" class="btn-add" data-add="table2Combat">+ Додати область до зони бойових дій</button>
+  </section>
+
+  <section class="card generate-card">
+    <button type="button" id="generateBtn" class="btn-generate">Сформувати Word-файл (.docx)</button>
+    <p id="status" class="status"></p>
+  </section>
+
+</main>
+
+<footer>
+  <p>Дані зберігаються лише у вашому браузері й нікуди не надсилаються.</p>
+</footer>
+
+<script type="module" src="app.js?v=5"></script>
+</body>
+</html>
